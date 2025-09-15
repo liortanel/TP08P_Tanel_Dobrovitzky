@@ -17,25 +17,18 @@ public static class Juego
         ListaPreguntas.Clear();
         ListaRespuestas.Clear();
     }
-    public static List<Categoria> ObtenerCategorias()
-    {
-        return BD.ObtenerCategorias();
-    }
-    public static List<Dificultad> ObtenerDificultades()
-    {
-        return BD.ObtenerDificultades();
-    }
+
     public static void CargarPartida(string username, int dificultad, int categoria)
     {
         InicializarJuego();
         Username = username;
         ListaPreguntas = BD.ObtenerPreguntas(dificultad, categoria);
-        ListaRespuestas = new List<Respuesta>();
         if (ListaPreguntas != null && ListaPreguntas.Count > 0)
         {
             PreguntaActual = ListaPreguntas[0];
         }
     }
+
     public static Pregunta ObtenerProximaPregunta()
     {
         if (ListaPreguntas != null && ContadorNroPreguntaActual < ListaPreguntas.Count)
@@ -44,39 +37,37 @@ public static class Juego
         }
         return null;
     }
+
     public static List<Respuesta> ObtenerProximasRespuestas(int idPregunta)
     {
-        return BD.ObtenerRespuestas(idPregunta);
+        ListaRespuestas = BD.ObtenerRespuestas(idPregunta);
+        return ListaRespuestas;
     }
+
     public static bool VerificarRespuesta(int idRespuesta)
     {
         bool esCorrecta = false;
-        if (ListaRespuestas != null)
+        foreach (var respuesta in ListaRespuestas)
         {
-            foreach (var respuesta in ListaRespuestas)
+            if (respuesta.ID == idRespuesta)
             {
-                if (respuesta.ID == idRespuesta)
-                {
-                    esCorrecta = respuesta.Correcta;
-                    break;
-                }
+                esCorrecta = respuesta.Correcta;
             }
-            if (esCorrecta)
-            {
-                PuntajeActual += 10;
-                CantidadPreguntasCorrectas++;
-            }
-            ContadorNroPreguntaActual++;
-            if (ContadorNroPreguntaActual < ListaPreguntas.Count)
-            {
-                PreguntaActual = ListaPreguntas[ContadorNroPreguntaActual];
-            }
-            else
-            {
-                PreguntaActual = null;
-            }
+        }
+        if (esCorrecta)
+        {
+            PuntajeActual += 10;
+            CantidadPreguntasCorrectas++;
+        }
+        ContadorNroPreguntaActual++;
+        if (ContadorNroPreguntaActual < ListaPreguntas.Count)
+        {
+            PreguntaActual = ListaPreguntas[ContadorNroPreguntaActual];
+        }
+        else
+        {
+            PreguntaActual = null;
         }
         return esCorrecta;
     }
-
 }

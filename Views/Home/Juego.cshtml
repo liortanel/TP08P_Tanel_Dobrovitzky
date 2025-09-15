@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Juego";
+    var pregunta = ViewBag.Pregunta as Pregunta;
+    var respuestas = ViewBag.Respuestas as List<Respuesta>;
+}
+
+<div>
+    <h1>PreguntadORT</h1>
+    <p>Usuario: @Juego.Username</p>
+    <p>Puntaje: @Juego.PuntajeActual</p>
+</div>
+
+@if (pregunta != null)
+{
+    <div>
+        <h2>Pregunta @(@Juego.ContadorNroPreguntaActual + 1) de @Juego.ListaPreguntas.Count</h2>
+        <p>@pregunta.Enunciado</p>
+
+        @if (!string.IsNullOrEmpty(pregunta.Foto))
+        {
+            <img src="@pregunta.Foto" alt="Imagen de la pregunta" style="max-width:300px;" />
+        }
+    </div>
+
+    <form asp-action="VerificarRespuesta" asp-controller="Home" method="post">
+        <input type="hidden" name="idPregunta" value="@pregunta.IDPregunta" />
+
+        @foreach (var r in respuestas)
+        {
+            <div>
+                <button type="submit" name="idRespuesta" value="@r.ID">
+                    @if (!string.IsNullOrEmpty(r.Texto))
+                    {
+                        @r.Texto
+                    }
+                    @if (!string.IsNullOrEmpty(r.Foto))
+                    {
+                        <br />
+                        <img src="@r.Foto" alt="Imagen de la respuesta" style="max-width:200px;" />
+                    }
+                </button>
+            </div>
+        }
+    </form>
+}
+else
+{
+    <h2>No hay más preguntas</h2>
+}
