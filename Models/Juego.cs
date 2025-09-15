@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class Juego
 {
     public static string Username { get; set; }
@@ -52,6 +54,7 @@ public static class Juego
             if (respuesta.ID == idRespuesta)
             {
                 esCorrecta = respuesta.Correcta;
+                break;
             }
         }
         if (esCorrecta)

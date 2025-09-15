@@ -1,5 +1,8 @@
 using Microsoft.Data.SqlClient;
 using Dapper;
+using System.Collections.Generic;
+using System.Linq;
+
 public static class BD
 {
     private static string _connectionString = @"Server=localhost; DataBase=TP_08_ PreguntadOrt; Integrated Security=True; TrustServerCertificate=True;";
@@ -8,59 +11,68 @@ public static class BD
     {
         return new SqlConnection(_connectionString);
     }
+
     public static List<Categoria> ObtenerCategorias()
     {
         using (SqlConnection connection = ObtenerConexion())
         {
-            var query = "SELECT * FROM Categorias";
+            var query = @"SELECT IdCategoria AS IDCategoria, Nombre, [Foto(opcional)] AS Foto FROM Categorias";
             var categorias = connection.Query<Categoria>(query).ToList();
             return categorias;
         }
     }
+
     public static List<Dificultad> ObtenerDificultades()
     {
         using (SqlConnection connection = ObtenerConexion())
         {
-            var query = "SELECT * FROM Dificultades";
+            var query = "SELECT IdDificultad AS IDDificultad, Nombre FROM Dificultades";
             var dificultades = connection.Query<Dificultad>(query).ToList();
             return dificultades;
         }
     }
+
     public static List<Pregunta> ObtenerPreguntas(int dificultad, int categoria)
     {
         using (SqlConnection connection = ObtenerConexion())
         {
-            List<Pregunta> preguntas;
+            string baseQuery = @"SELECT IdPreguntas AS IDPregunta, Enunciado, [Foto(opcional)] AS Foto, IdCategoria AS IDCategoria, IdDificultad AS IDDificultad
+                                 FROM Preguntas";
 
             if (dificultad == -1 && categoria == -1)
             {
-                var query = "SELECT * FROM Preguntas";
-                preguntas = connection.Query<Pregunta>(query).ToList();
+                var preguntas = connection.Query<Pregunta>(baseQuery).ToList();
+                return preguntas;
             }
             else if (dificultad == -1)
             {
-                var query = "SELECT * FROM Pregunta WHERE IDCategoria = @categoria";
-                preguntas = connection.Query<Pregunta>(query, new { categoria }).ToList();
+                var query = baseQuery + " WHERE IdCategoria = @categoria";
+                var preguntas = connection.Query<Pregunta>(query, new { categoria }).ToList();
+                return preguntas;
             }
             else if (categoria == -1)
             {
-                var query = "SELECT * FROM Pregunta WHERE IDDificultad = @dificultad";
-                preguntas = connection.Query<Pregunta>(query, new { dificultad }).ToList();
+                var query = baseQuery + " WHERE IdDificultad = @dificultad";
+                var preguntas = connection.Query<Pregunta>(query, new { dificultad }).ToList();
+                return preguntas;
             }
             else
             {
-                var query = "SELECT * FROM Pregunta WHERE IDDificultad = @dificultad AND IDCategoria = @categoria";
-                preguntas = connection.Query<Pregunta>(query, new { dificultad, categoria }).ToList();
+                var query = baseQuery + " WHERE IdDificultad = @dificultad AND IdCategoria = @categoria";
+                var preguntas = connection.Query<Pregunta>(query, new { dificultad, categoria }).ToList();
+                return preguntas;
             }
-
-            return preguntas;
         }
     }
+
     public static List<Respuesta> ObtenerRespuestas(int pregunta)
     {
         using (SqlConnection connection = ObtenerConexion())
         {
-            var query = "SELECT * FROM Respuesta WHERE IDPregunta = @pregunta";
+            var query = @"SELECT IdRespuestas AS ID, IdPregunta AS IdPregunta, Opcion, Contenido AS Texto, Correcta AS Correcta, [Foto(opcional)] AS Foto
+                          FROM Respuestas
+                          WHERE IdPregunta = @pregunta
+                          ORDER BY Opcion";
             var respuestas = connection.Query<Respuesta>(query, new { pregunta }).ToList();
             return respuestas;
         }
