@@ -4,30 +4,36 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NombreProyecto</title>
+    <title>@ViewData["Title"] - PreguntadORT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
 <body>
     <header>
-        <nav class="navbar">
-            <a href="/" class="navbar-brand">
-                <img src="https://sdmntpreastus.oaiusercontent.com/files/00000000-0300-61f9-862b-89dc72aafb17/raw?se=2025-09-15T12%3A31%3A17Z&sp=r&sv=2024-08-04&sr=b&scid=82e7ffdf-64ab-58bf-9dea-661cbf0f8bab&skoid=02b7f7b5-29f8-416a-aeb6-99464748559d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-15T01%3A10%3A28Z&ske=2025-09-16T01%3A10%3A28Z&sks=b&skv=2024-08-04&sig=tuJyr0f60Nih1GP1PM081aSq0ipdL8Y17ueS9ik6vSk%3D" alt="Logo" class="logo" />
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("ConfigurarJuego", "Home")">Jugar</a>
-                </li>
-            </ul>
-        </nav>
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="Barra de navegación">
+                <a href="/" class="navbar-brand">
+                    <img src="/favicon.ico" alt="Logo" class="logo" />
+                    PreguntadORT
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ConfigurarJuego", "Home")">Jugar</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main role="main">
+    <main role="main" class="container">
         @RenderBody()
     </main>
 
-    <footer>
-        &copy; @DateTime.Now.Year - NombreProyecto
+    <footer class="container">
+        &copy; @DateTime.Now.Year - PreguntadORT
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -4,31 +4,37 @@
     var respuestas = ViewBag.Respuestas as List<Respuesta>;
 }
 
-<div>
-    <h1>PreguntadORT</h1>
-    <p>Usuario: @Juego.Username</p>
-    <p>Puntaje: @Juego.PuntajeActual</p>
+<div data-view="juego" class="fade-in">
+    <div class="game-header">
+        <div class="pill">Usuario: @Juego.Username</div>
+        <div class="pill score">Puntaje: @Juego.PuntajeActual</div>
+    </div>
+    <h1 class="title">PreguntadORT</h1>
+    <p class="subtitle">Pregunta @(@Juego.ContadorNroPreguntaActual + 1) de @Juego.ListaPreguntas.Count</p>
 </div>
 
 @if (pregunta != null)
 {
-    <div>
-        <h2>Pregunta @(@Juego.ContadorNroPreguntaActual + 1) de @Juego.ListaPreguntas.Count</h2>
-        <p>@pregunta.Enunciado</p>
+    <div class="card question-card fade-in">
+        <p class="question-text">@pregunta.Enunciado</p>
 
         @if (!string.IsNullOrEmpty(pregunta.Foto))
         {
-            <img src="@pregunta.Foto" alt="Imagen de la pregunta" style="max-width:300px;" />
+            <div class="question-media">
+                <img src="@pregunta.Foto" alt="Imagen de la pregunta" />
+            </div>
         }
     </div>
 
-    <form asp-action="VerificarRespuesta" asp-controller="Home" method="post">
+    <form asp-action="VerificarRespuesta" asp-controller="Home" method="post" class="fade-in" style="margin-top: 12px;">
         <input type="hidden" name="idPregunta" value="@pregunta.IDPregunta" />
 
-        @foreach (var r in respuestas)
-        {
-            <div>
-                <button type="submit" name="idRespuesta" value="@r.ID">
+        <div class="answers-grid">
+            @for (int i = 0; i < respuestas.Count; i++)
+            {
+                var r = respuestas[i];
+                var colorClass = i == 0 ? "green" : i == 1 ? "blue" : i == 2 ? "pink" : "yellow";
+                <button class="answer @colorClass" type="submit" name="idRespuesta" value="@r.ID">
                     @if (!string.IsNullOrEmpty(r.Texto))
                     {
                         @r.Texto
@@ -36,11 +42,11 @@
                     @if (!string.IsNullOrEmpty(r.Foto))
                     {
                         <br />
-                        <img src="@r.Foto" alt="Imagen de la respuesta" style="max-width:200px;" />
+                        <img src="@r.Foto" alt="Imagen de la respuesta" style="max-width:200px; border-radius: 8px; margin-top: 6px;" />
                     }
                 </button>
-            </div>
-        }
+            }
+        </div>
     </form>
 }
 else

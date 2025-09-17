@@ -16,7 +16,7 @@ public static class BD
     {
         using (SqlConnection connection = ObtenerConexion())
         {
-            var query = @"SELECT IdCategoria AS IDCategoria, Nombre, [Foto(opcional)] AS Foto FROM Categorias";
+            var query = @"SELECT IdCategoria AS IDCategoria, Nombre FROM Categorias";
             var categorias = connection.Query<Categoria>(query).ToList();
             return categorias;
         }
@@ -36,7 +36,7 @@ public static class BD
     {
         using (SqlConnection connection = ObtenerConexion())
         {
-            string baseQuery = @"SELECT IdPreguntas AS IDPregunta, Enunciado, [Foto(opcional)] AS Foto, IdCategoria AS IDCategoria, IdDificultad AS IDDificultad
+            string baseQuery = @"SELECT IdPreguntas AS IDPregunta, Enunciado, IdCategoria AS IDCategoria, IdDificultad AS IDDificultad
                                  FROM Preguntas";
 
             if (dificultad == -1 && categoria == -1)
@@ -69,7 +69,7 @@ public static class BD
     {
         using (SqlConnection connection = ObtenerConexion())
         {
-            var query = @"SELECT IdRespuestas AS ID, IdPregunta AS IdPregunta, Opcion, Contenido AS Texto, Correcta AS Correcta, [Foto(opcional)] AS Foto
+            var query = @"SELECT IdRespuestas AS ID, IdPregunta AS IdPregunta, Opcion, Contenido AS Texto, Correcta AS Correcta
                           FROM Respuestas
                           WHERE IdPregunta = @pregunta
                           ORDER BY Opcion";

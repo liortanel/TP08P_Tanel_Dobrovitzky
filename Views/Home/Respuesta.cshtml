@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Respuesta";
+    bool correcta = (ViewBag.Correcta as bool?) ?? false;
+}
+
+<div class="fade-in">
+    <div class="game-header">
+        <div class="pill">Usuario: @Juego.Username</div>
+        <div class="pill score">Puntaje: @Juego.PuntajeActual</div>
+    </div>
+    <h1 class="title">PreguntadORT</h1>
+</div>
+
+<div class="card fade-in" style="margin-top: 12px; text-align: center;">
+    @if (correcta)
+    {
+        <h2 style="color: var(--success);">¡Respuesta correcta! 🎉</h2>
+    }
+    else
+    {
+        <h2 style="color: var(--danger);">Respuesta incorrecta.</h2>
+    }
+</div>
+
+<div style="margin-top: 16px;">
+    <a asp-action="Jugar" asp-controller="Home" class="btn btn-primary">Siguiente pregunta</a>
+ </div>
+
+

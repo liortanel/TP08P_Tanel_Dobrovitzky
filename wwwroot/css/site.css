@@ -1,9 +1,240 @@
+/* =============================
+   Base de diseño - Vibra Preguntados
+   ============================= */
+
+:root {
+  --bg: #0f1020;
+  --bg-2: #181a2e;
+  --surface: #1e2140;
+  --text: #e6e6f0;
+  --muted: #b7b7c9;
+  --primary: #7c5cff;
+  --primary-2: #5ad6ff;
+  --accent: #ff6ec7;
+  --success: #2dd4bf;
+  --danger: #ff5a7a;
+  --warning: #ffd166;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at -10% -10%, rgba(124,92,255,.35), transparent 60%),
+    radial-gradient(800px 500px at 110% 10%, rgba(90,214,255,.30), transparent 60%),
+    radial-gradient(900px 600px at 50% 120%, rgba(255,110,199,.20), transparent 60%),
+    var(--bg);
+}
+
+/* Asegurar que todos los controles usen la misma fuente */
+button, input, select, textarea { font-family: inherit; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+.container {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* =============================
+   Navbar
+   ============================= */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  padding: 10px 8px;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.18);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.navbar-brand .logo { height: 28px; width: 28px; border-radius: 50%; filter: drop-shadow(0 4px 8px rgba(0,0,0,.25)); }
+
+.navbar-nav { list-style: none; display: flex; gap: 18px; margin: 0; padding: 0; }
+.nav-item {}
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 2px;
+  border-bottom: 2px solid transparent;
+  transition: all .25s ease;
+}
+.nav-link:hover { color: var(--text); border-bottom-color: rgba(255,255,255,.18); }
+
+/* =============================
+   Tipos y utilidades
+   ============================= */
+.title { font-size: clamp(28px, 4vw, 42px); margin: 8px 0 4px; letter-spacing: .5px; }
+.subtitle { color: var(--muted); margin: 0 0 16px; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.row { display: grid; gap: 18px; }
+.row.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.row.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 720px) { .row.cols-2, .row.cols-3 { grid-template-columns: 1fr; } }
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+/* =============================
+   Botones
+   ============================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
+  color: #0b0b14;
+  background: linear-gradient(180deg, var(--primary-2), #49c8ff);
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease;
+  box-shadow: 0 8px 16px rgba(90,214,255,.25);
+}
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(1px) scale(.99); }
+
+.btn-primary { background: linear-gradient(180deg, var(--primary), #6542ff); color: #fff; box-shadow: 0 8px 16px rgba(124,92,255,.28); }
+.btn-danger { background: linear-gradient(180deg, var(--danger), #ff3e62); color: #fff; }
+
+/* Botones de respuesta estilo "Preguntados" */
+.answers-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-top: 8px; }
+@media (max-width: 640px) { .answers-grid { grid-template-columns: 1fr; } }
+
+.answer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+  min-height: 64px;
+  padding: 14px 16px;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .25s ease, background .25s ease;
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+.answer:hover { transform: translateY(-2px); box-shadow: 0 16px 28px rgba(0,0,0,.35); }
+.answer:active { transform: translateY(0); }
+
+.answer::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 200%;
+  background: radial-gradient(600px 200px at 20% 0, rgba(255,255,255,.08), transparent 60%);
+  transform: rotate(-6deg);
+  pointer-events: none;
+}
+
+.answer.green { background: linear-gradient(180deg, rgba(45,212,191,.25), rgba(45,212,191,.1)); border-color: rgba(45,212,191,.5); }
+.answer.blue  { background: linear-gradient(180deg, rgba(90,214,255,.25), rgba(90,214,255,.1)); border-color: rgba(90,214,255,.5); }
+.answer.pink  { background: linear-gradient(180deg, rgba(255,110,199,.25), rgba(255,110,199,.1)); border-color: rgba(255,110,199,.5); }
+.answer.yellow{ background: linear-gradient(180deg, rgba(255,209,102,.25), rgba(255,209,102,.1)); border-color: rgba(255,209,102,.5); color: var(--text); }
+
+/* =============================
+   Tarjetas de juego
+   ============================= */
+.game-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.score { font-size: .95rem; }
+
+.question-card .question-text { font-size: clamp(18px, 2.6vw, 22px); margin: 0; line-height: 1.4; }
+.question-card .question-media { margin-top: 12px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); }
+
+/* =============================
+   Animaciones
+   ============================= */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(.96); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+.fade-in { animation: fadeInUp .35s ease both; }
+.pop { animation: pop .3s ease both; }
+
+/* =============================
+   Formularios
+   ============================= */
+label { display: block; font-weight: 600; margin-bottom: 6px; }
+input[type="text"] {
+  width: 100%;
+  background: #111323;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 12px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+input[type="text"]:focus { border-color: var(--primary-2); box-shadow: 0 0 0 3px rgba(90,214,255,.18); }
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.option input { accent-color: var(--primary-2); cursor: pointer; }
+
+/* Cursor en radios y checkboxes por si no usan .option */
+input[type="radio"], input[type="checkbox"] { cursor: pointer; }
+
+/* =============================
+   Footer
+   ============================= */
+footer { color: var(--muted); text-align: center; padding: 16px 0 32px; }
+
 /* NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: antiquewhite;
+  background: rgba(250, 235, 215, 0.082);
   padding: 10px 20px;
 }
 
@@ -33,7 +264,7 @@
 }
 
 .nav-link {
-  color: black;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   font-size: 1rem;
   transition: color 0.3s ease, border-bottom 0.3s ease;
@@ -42,6 +273,5 @@
 }
 
 .nav-link:hover {
-  color: #00d4ff;
-  border-bottom: 2px solid #00d4ff;
+  border-bottom: 2px solid #ffffff;
 }

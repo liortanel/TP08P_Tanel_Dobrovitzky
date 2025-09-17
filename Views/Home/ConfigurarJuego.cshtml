@@ -2,46 +2,62 @@
     ViewData["Title"] = "Configurar Juego";
 }
 
-<div>
-    <h1>PreguntadORT</h1>
-    <p>Por Lior T. y Santiago D.</p>
+<div data-view="configurar" class="fade-in">
+    <h1 class="title">PreguntadORT</h1>
+    <p class="subtitle">Por Lior T. y Santiago D.</p>
+    @if (TempData["Error"] != null)
+    {
+        <div class="card" style="background: rgba(255,90,122,.08); border-color: rgba(255,90,122,.35); color: var(--text); margin-top: 8px;">
+            @TempData["Error"]
+        </div>
+    }
 </div>
 
-<form asp-action="Comenzar" asp-controller="Home" method="post">
-    <div>
-        <label for="username">Nombre de usuario:</label>
-        <input type="text" id="username" name="username" required />
-    </div>
-
-    <div>
-        <h3>Dificultad</h3>
+<form asp-action="Comenzar" asp-controller="Home" method="post" novalidate class="card fade-in" style="margin-top: 12px;">
+    <div class="row">
         <div>
-            <input type="radio" id="difTodas" name="dificultad" value="-1" checked />
-            <label for="difTodas">Todas</label>
+            <label for="username">Nombre de usuario</label>
+            <input type="text" id="username" name="username" required/>
         </div>
-        @foreach (var d in ViewBag.Dificultades)
-        {
-            <div>
-                <input type="radio" id="dif_@d.IDDificultad" name="dificultad" value="@d.IDDificultad" />
-                <label for="dif_@d.IDDificultad">@d.Nombre</label>
-            </div>
-        }
     </div>
 
-    <div>
-        <h3>Categoría</h3>
-        <div>
-            <input type="radio" id="catTodas" name="categoria" value="-1" checked />
-            <label for="catTodas">Todas</label>
-        </div>
-        @foreach (var c in ViewBag.Categorias)
-        {
-            <div>
-                <input type="radio" id="cat_@c.IDCategoria" name="categoria" value="@c.IDCategoria" />
-                <label for="cat_@c.IDCategoria">@c.Nombre</label>
+    <div class="row cols-2" style="margin-top: 12px;">
+        <div class="card">
+            <h3 class="pill">Dificultad</h3>
+            <div class="row">
+                <label class="option" for="difTodas">
+                    <input type="radio" id="difTodas" name="dificultad" value="-1" checked />
+                    Todas
+                </label>
+                @foreach (var d in ViewBag.Dificultades)
+                {
+                    <label class="option" for="dif_@d.IDDificultad">
+                        <input type="radio" id="dif_@d.IDDificultad" name="dificultad" value="@d.IDDificultad" />
+                        @d.Nombre
+                    </label>
+                }
             </div>
-        }
+        </div>
+
+        <div class="card">
+            <h3 class="pill">Categoría</h3>
+            <div class="row">
+                <label class="option" for="catTodas">
+                    <input type="radio" id="catTodas" name="categoria" value="-1" checked />
+                    Todas
+                </label>
+                @foreach (var c in ViewBag.Categorias)
+                {
+                    <label class="option" for="cat_@c.IDCategoria">
+                        <input type="radio" id="cat_@c.IDCategoria" name="categoria" value="@c.IDCategoria" />
+                        @c.Nombre
+                    </label>
+                }
+            </div>
+        </div>
     </div>
 
-    <button type="submit">Comenzar Juego</button>
+    <div style="margin-top: 16px;">
+        <button type="submit" class="btn btn-primary pop">Comenzar Juego</button>
+    </div>
 </form>

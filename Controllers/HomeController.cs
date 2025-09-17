@@ -28,6 +28,11 @@ namespace TP08_Tanel_Dobrovitzky.Controllers
         [HttpPost]
         public IActionResult Comenzar(string username, int dificultad, int categoria)
         {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                TempData["Error"] = "Ingresá un nombre de usuario.";
+                return RedirectToAction("ConfigurarJuego");
+            }
             Juego.CargarPartida(username, dificultad, categoria);
             HttpContext.Session.SetString("Username", username);
             HttpContext.Session.SetInt32("Dificultad", dificultad);
