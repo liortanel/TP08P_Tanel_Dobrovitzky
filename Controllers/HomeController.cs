@@ -59,5 +59,12 @@ namespace TP08_Tanel_Dobrovitzky.Controllers
             ViewBag.Correcta = correcta;
             return View("Respuesta");
         }
+
+        public IActionResult Fin(int CantidadPreguntasCorrectas)
+        {
+            ViewBag.CantidadPreguntasCorrectas = CantidadPreguntasCorrectas;
+            return View();
+        }
+        
     }
 }
