@@ -77,4 +77,33 @@ public static class BD
             return respuestas;
         }
     }
+
+    public static void GuardarPuntaje(DateTime fechaHora, string username, int puntaje)
+    {
+        using (SqlConnection connection = ObtenerConexion())
+        {
+            var insertSql = @"INSERT INTO HighScores (FechaHora, Username, Puntaje) VALUES (@fechaHora, @username, @puntaje)";
+            connection.Execute(insertSql, new { fechaHora, username, puntaje });
+        }
+    }
+
+    public static List<HighScore> ObtenerHighScores()
+    {
+        using (SqlConnection connection = ObtenerConexion())
+        {
+            var selectSql = @"SELECT TOP 20 Id AS ID, FechaHora, Username, Puntaje FROM HighScores ORDER BY Puntaje DESC, FechaHora ASC";
+            var lista = connection.Query<HighScore>(selectSql).ToList();
+            return lista;
+        }
+    }
+
+    public static int ObtenerRankingPorPuntaje(int puntaje)
+    {
+        using (SqlConnection connection = ObtenerConexion())
+        {
+            var sql = @"SELECT COUNT(*) FROM HighScores WHERE Puntaje > @puntaje";
+            int mayores = connection.ExecuteScalar<int>(sql, new { puntaje });
+            return mayores + 1;
+        }
+    }
 }

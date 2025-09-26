@@ -45,7 +45,11 @@ namespace TP08_Tanel_Dobrovitzky.Controllers
             var pregunta = Juego.ObtenerProximaPregunta();
             if (pregunta == null)
             {
-                return View("Fin");
+                if (Juego.Username != null)
+                {
+                    BD.GuardarPuntaje(DateTime.Now, Juego.Username, Juego.PuntajeActual);
+                }
+                return RedirectToAction("Fin", new { CantidadPreguntasCorrectas = Juego.CantidadPreguntasCorrectas });
             }
             ViewBag.Pregunta = pregunta;
             ViewBag.Respuestas = Juego.ObtenerProximasRespuestas(pregunta.IDPregunta);
@@ -63,8 +67,14 @@ namespace TP08_Tanel_Dobrovitzky.Controllers
         public IActionResult Fin(int CantidadPreguntasCorrectas)
         {
             ViewBag.CantidadPreguntasCorrectas = CantidadPreguntasCorrectas;
+            ViewBag.Ranking = BD.ObtenerRankingPorPuntaje(Juego.PuntajeActual);
+            ViewBag.HighScores = BD.ObtenerHighScores();
             return View();
         }
-        
+        public IActionResult HighScores()
+        {
+            var lista = BD.ObtenerHighScores();
+            return View("HighScores", lista);
+        }
     }
 }

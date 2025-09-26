@@ -27,7 +27,6 @@ body {
   background:
     radial-gradient(1200px 600px at -10% -10%, rgba(124,92,255,.35), transparent 60%),
     radial-gradient(800px 500px at 110% 10%, rgba(90,214,255,.30), transparent 60%),
-    radial-gradient(900px 600px at 50% 120%, rgba(255,110,199,.20), transparent 60%),
     var(--bg);
 }
 
@@ -110,6 +109,28 @@ a { color: inherit; }
   border-radius: var(--radius);
   padding: 22px;
   box-shadow: var(--shadow);
+}
+
+/* Utilidades de espaciado */
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+
+/* Tablas básicas */
+.table { width: 100%; border-collapse: collapse; }
+.table thead th {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  color: var(--muted);
+  font-weight: 700;
+}
+.table tbody td {
+  padding: 8px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.row-highlight {
+  background: linear-gradient(180deg, rgba(124,92,255,.20), rgba(124,92,255,.08));
 }
 
 /* =============================

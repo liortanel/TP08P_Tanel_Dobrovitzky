@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Fin";
+}
+
+<div data-view="fin" class="fade-in">
+    <h1 class="title">¡Juego terminado!</h1>
+    <div class="card mt-12">
+        <p><strong>Nombre de usuario:</strong> @Juego.Username</p>
+        <p><strong>Puntaje final:</strong> @Juego.PuntajeActual</p>
+    </div>
+
+    @{
+        var ranking = ViewBag.Ranking as int? ?? 0;
+        var lista = ViewBag.HighScores as List<HighScore>;
+    }
+
+    @if (lista != null && lista.Count >= 0)
+    {
+        <div class="card mt-12">
+            <h2 class="subtitle">Tu posición en el ranking: @ranking</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Usuario</th>
+                        <th>Puntaje</th>
+                        <th>Fecha y hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for (int i = 0; i < lista.Count; i++)
+                {
+                    var item = lista[i];
+                    bool esUsuario = (item.Username == Juego.Username && item.Puntaje == Juego.PuntajeActual);
+                    <tr class="@(esUsuario ? "row-highlight" : "")">
+                        <td>@(i + 1)</td>
+                        <td>@item.Username</td>
+                        <td>@item.Puntaje</td>
+                        <td>@item.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <form action='@Url.Action("HighScores", "Home")' method="get" enctype="multipart/form-data" class="mt-16">
+                <button type="submit" class="btn btn-primary">Ver tabla completa</button>
+            </form>
+        </div>
+    }
+
+    <form action='@Url.Action("ConfigurarJuego", "Home")' method="get" enctype="multipart/form-data" class="mt-16">
+        <button type="submit" class="btn btn-primary">Volver a jugar</button>
+    </form>
+</div>
+
+

@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 public static class Juego
 {
+    private static readonly Random respuestasRandom = new Random();
     public static string Username { get; set; }
     public static int PuntajeActual { get; set; }
     public static int CantidadPreguntasCorrectas { get; set; }
@@ -43,6 +45,17 @@ public static class Juego
     public static List<Respuesta> ObtenerProximasRespuestas(int idPregunta)
     {
         ListaRespuestas = BD.ObtenerRespuestas(idPregunta);
+        if (ListaRespuestas != null && ListaRespuestas.Count > 1)
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < ListaRespuestas.Count; i++)
+            {
+                int posicionAleatoria = rnd.Next(ListaRespuestas.Count);
+                var respuestaTemp = ListaRespuestas[i];
+                ListaRespuestas[i] = ListaRespuestas[posicionAleatoria];
+                ListaRespuestas[posicionAleatoria] = respuestaTemp;
+            }
+        }
         return ListaRespuestas;
     }
 

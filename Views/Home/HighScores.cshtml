@@ -1,0 +1,46 @@
+@model List<HighScore>
+@{
+    ViewData["Title"] = "Mejores Puntajes";
+}
+
+<div data-view="highscores" class="fade-in">
+    <h1 class="title">Mejores Puntajes</h1>
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <p class="subtitle">Aún no hay puntajes registrados.</p>
+    }
+    else
+    {
+        <div class="card mt-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Usuario</th>
+                        <th>Puntaje</th>
+                        <th>Fecha y hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var item = Model[i];
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@item.Username</td>
+                        <td>@item.Puntaje</td>
+                        <td>@item.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <form action='@Url.Action("ConfigurarJuego", "Home")' method="get" enctype="multipart/form-data" class="mt-16">
+        <button type="submit" class="btn btn-primary">Volver a jugar</button>
+    </form>
+</div>
+
+
